@@ -1,0 +1,28 @@
+ceilometer_pipeline_yaml_overrides:
+  sinks:
+  - name: meter_sink
+    publishers:
+    - notifier://
+    transformers: null
+  sources:
+  - interval: 1800
+    meters:
+    - instance
+    - vcpus 
+    - memory
+    - disk.root.size
+    - image.size
+    - volume.size
+    - snapshot.size
+    - network.services.lb.loadbalancer
+    name: meter_source
+    sinks:
+    - meter_sink
+
+  - interval: 3600
+    meters:
+    - storage.containers.objects.size
+    name: swift_source
+    sinks:
+    - meter_sink
+
